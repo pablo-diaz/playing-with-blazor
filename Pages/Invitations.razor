@@ -1,0 +1,40 @@
+@page "/invitations"
+@inject IInvitationService invitationService
+
+<h1>These are the Invitations for the User</h1>
+
+@if (invitationData == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Challenge</th>
+                <th>Participant</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var invitation in invitationData)
+            {
+                <tr>
+                    <td>@invitation.Id</td>
+                    <td>@invitation.Challenge</td>
+                    <td>@invitation.Participant</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    InvitationModel[] invitationData;
+
+    protected override async Task OnInitAsync()
+    {
+        this.invitationData = await invitationService.GetInvitationsForUserId(846939);
+    }
+}
